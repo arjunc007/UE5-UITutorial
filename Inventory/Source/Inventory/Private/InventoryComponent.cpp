@@ -19,8 +19,15 @@ void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	if (WidgetClassToSpawn && IsValid(GetOwner()))
+	{
+		ActiveWidget = CreateWidget<UUserWidget>(GetWorld(), WidgetClassToSpawn);
+
+		if (ActiveWidget)
+		{
+			ActiveWidget->AddToViewport();
+		}
+	}
 }
 
 
