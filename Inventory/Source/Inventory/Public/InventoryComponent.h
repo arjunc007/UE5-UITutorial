@@ -25,9 +25,23 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UPROPERTY(EditAnywhere, Category = "Health")
+	float Health = 5.5f;
+
+	UPROPERTY(EditAnywhere, Category = "Health")
+	float MaxHealth = 20.0f;
+
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UUserWidget> HealthBarClassToSpawn;
+	UPROPERTY(EditAnywhere, Category = "UI")
+	TSubclassOf<UUserWidget> InventoryClassToSpawn;
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UUserWidget> WidgetClassToSpawn;
 
 	UPROPERTY()
-	UUserWidget* ActiveWidget;
+	UUserWidget* HealthBarWidget;
+	UPROPERTY()
+	UUserWidget* InventoryWidget;
+	UPROPERTY()
+	UUserWidget* HealthBar;
 };

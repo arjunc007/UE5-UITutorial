@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Widgets/Layout/SWrapBox.h"
 #include "Widgets/SCompoundWidget.h"
 
 /**
@@ -18,4 +19,7 @@ public:
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
 	FReply OnButtonClick(); // Helper for button interaction
+
+private:
+	TSharedPtr<SWrapBox> WrapBox;
 };

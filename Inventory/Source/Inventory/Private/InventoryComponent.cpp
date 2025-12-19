@@ -2,6 +2,7 @@
 
 
 #include "InventoryComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UInventoryComponent::UInventoryComponent()
@@ -19,13 +20,16 @@ void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (WidgetClassToSpawn && IsValid(GetOwner()))
-	{
-		ActiveWidget = CreateWidget<UUserWidget>(GetWorld(), WidgetClassToSpawn);
+	APlayerController* controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	controller->SetInputMode(FInputModeGameOnly());
 
-		if (ActiveWidget)
+	if (HealthBarClassToSpawn && IsValid(GetOwner()))
+	{
+		HealthBarWidget = CreateWidget<UUserWidget>(GetWorld(), WidgetClassToSpawn);
+
+		if (HealthBarWidget)
 		{
-			ActiveWidget->AddToViewport();
+			HealthBarWidget->AddToViewport();
 		}
 	}
 }

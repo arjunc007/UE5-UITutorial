@@ -7,25 +7,37 @@
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SHealthBarWidget::Construct(const FArguments& InArgs)
 {
+    if (WrapBox)
+    {
+        WrapBox->ClearChildren();
+    }
+    else
+    {
+        WrapBox = SNew(SWrapBox);
+    }
+
+
+
+
     ChildSlot
         [
-            SNew(SVerticalBox)
-                + SVerticalBox::Slot()
-                .AutoHeight()
-                .HAlign(HAlign_Center)
+            SNew(SBox)
+            .WidthOverride(600)
+            .HeightOverride(80)
+            [
+                SNew(SOverlay)
+                + SOverlay::Slot()
+                .HAlign(HAlign_Fill)
+                .VAlign(VAlign_Fill)
                 [
-                    SNew(STextBlock).Text(FText::FromString("Hello from C++ Slate!"))
+                    SAssignNew(WrapBox, SWrapBox)
                 ]
-                + SVerticalBox::Slot()
-                .AutoHeight()
-                [
-                    SNew(SButton)
-                        .OnClicked(this, &SHealthBarWidget::OnButtonClick)
-                        [
-                            SNew(STextBlock).Text(FText::FromString("Click Me"))
-                        ]
-                ]
+            ]
         ];
+
+    WrapBox->AddSlot()
+        .HAlign(HAlign_Fill)
+        .VAlign(VAlign_Fill);
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
