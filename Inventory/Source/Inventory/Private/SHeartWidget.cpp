@@ -8,38 +8,19 @@
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SHeartWidget::Construct(const FArguments& InArgs)
 {
-	HealthPercent = InArgs._HealthPercent;
-    FullBrush = InArgs._FullHeartBrush;
-    HalfBrush = InArgs._HalfHeartBrush;
-    EmptyBrush = InArgs._EmptyHeartBrush;
-
+    CurrentBrush = InArgs._CurrentBrush;
+	
 	ChildSlot
 	[
 		SNew(SBox)
 		.HeightOverride(30.f)
 		.WidthOverride(30.f)
+		.Padding(2)
 		[
 			SNew(SImage)
-			.Image(this, &SHeartWidget::GetHeartBrush)
+			.Image(CurrentBrush.Get())
+
 		]
 	];
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
-
-const FSlateBrush* SHeartWidget::GetHeartBrush() const
-{
-    const float Health = HealthPercent.Get();
-
-    if (Health > 0.75f)
-    {
-        return FullBrush;
-    }
-    else if (Health > 0.25f)
-    {
-        return HalfBrush;
-    }
-    else
-    {
-        return EmptyBrush;
-    }
-}

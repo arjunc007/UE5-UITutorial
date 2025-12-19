@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "InventoryComponent.h"
+#include "HealthBarContainer.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
@@ -25,10 +25,13 @@ void UInventoryComponent::BeginPlay()
 
 	if (HealthBarClassToSpawn && IsValid(GetOwner()))
 	{
-		HealthBarWidget = CreateWidget<UUserWidget>(GetWorld(), WidgetClassToSpawn);
+		HealthBarWidget = CreateWidget<UUserWidget>(GetWorld(), HealthBarClassToSpawn);
 
 		if (HealthBarWidget)
 		{
+			UHealthBarContainer* HealthBar = Cast<UHealthBarContainer>(HealthBarWidget);
+			HealthBar->InitializeHealthBar(this);
+			HealthBarWidget->SetPositionInViewport(FVector2D(5, 5));
 			HealthBarWidget->AddToViewport();
 		}
 	}

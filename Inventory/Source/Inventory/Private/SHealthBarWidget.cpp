@@ -2,22 +2,40 @@
 
 
 #include "SHealthBarWidget.h"
+#include "SHeartWidget.h"
 #include "SlateOptMacros.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SHealthBarWidget::Construct(const FArguments& InArgs)
 {
+    CurrentHealth = InArgs._CurrentHealth;
+    FullBrush = InArgs._FullHeartBrush;
+    HalfBrush = InArgs._HalfHeartBrush;
+    EmptyBrush = InArgs._EmptyHeartBrush;
+
     if (WrapBox)
     {
         WrapBox->ClearChildren();
     }
     else
     {
-        WrapBox = SNew(SWrapBox);
+        WrapBox = SNew(SWrapBox)
+            .UseAllottedSize(true)
+            .HAlign(HAlign_Left)
+            .Orientation(Orient_Horizontal);
     }
 
-
-
+    for (int i = 0; i < InArgs._MaxHearts.Get(); i++)
+    {
+        WrapBox->AddSlot()
+        [
+            SNew(SHeartWidget)
+            .CurrentBrush_Lambda([this, i]()
+            {
+                return GetBrushForHeartIndex(i);
+            })
+        ];
+    }
 
     ChildSlot
         [
@@ -30,19 +48,27 @@ void SHealthBarWidget::Construct(const FArguments& InArgs)
                 .HAlign(HAlign_Fill)
                 .VAlign(VAlign_Fill)
                 [
-                    SAssignNew(WrapBox, SWrapBox)
+                    WrapBox.ToSharedRef()
                 ]
             ]
         ];
-
-    WrapBox->AddSlot()
-        .HAlign(HAlign_Fill)
-        .VAlign(VAlign_Fill);
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
-FReply SHealthBarWidget::OnButtonClick()
+const FSlateBrush* SHealthBarWidget::GetBrushForHeartIndex(int HeartIndex) const
 {
-    UE_LOG(LogTemp, Warning, TEXT("Slate Button was clicked!"));
-    return FReply::Handled();
+    float Health = CurrentHealth.Get();
+
+    float HeartValue = Health - (float)HeartIndex;
+
+    if (HeartValue >= 1.f)
+    {
+        return FullBrush;
+    }
+    else if (HeartValue >= 0.5f)
+    {
+        return HalfBrush;
+    }
+
+    return EmptyBrush;
 }

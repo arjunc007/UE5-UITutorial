@@ -36,12 +36,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UUserWidget> InventoryClassToSpawn;
 	UPROPERTY(EditAnywhere, Category = "UI")
-	TSubclassOf<UUserWidget> WidgetClassToSpawn;
+	TSubclassOf<UUserWidget> InteractClassToSpawn;
 
 	UPROPERTY()
 	UUserWidget* HealthBarWidget;
 	UPROPERTY()
 	UUserWidget* InventoryWidget;
 	UPROPERTY()
-	UUserWidget* HealthBar;
+	UUserWidget* InteractWidget;
 };
