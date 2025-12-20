@@ -35,6 +35,9 @@ public:
     FSlateBrush EmptyHeart;
 
 private:
+    UFUNCTION()
+    void OnHealthUpdate(float NewHealth, int MaxHearts);
+
     float GetHealthFromComponent() const;
     int GetMaxHealthFromComponent() const;
     TWeakObjectPtr<UInventoryComponent> SourceComp;

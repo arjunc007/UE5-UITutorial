@@ -9,15 +9,26 @@ TSharedRef<SWidget> UHealthBarWidgetWrapper::RebuildWidget()
 		.FullHeartBrush(&FullHeart)
 		.HalfHeartBrush(&HalfHeart)
 		.EmptyHeartBrush(&EmptyHeart)
-        .MaxHearts_UObject(this, &UHealthBarWidgetWrapper::GetMaxHealthFromComponent)
-        .CurrentHealth_UObject(this, &UHealthBarWidgetWrapper::GetHealthFromComponent);
+        .MaxHearts(GetMaxHealthFromComponent())
+        .CurrentHealth(GetHealthFromComponent());
 
 	return SlateHealthBar.ToSharedRef();
 }
 
 void UHealthBarWidgetWrapper::SetSourceComponent(UInventoryComponent* InComp)
 {
+    if (SourceComp.IsValid())
+    {
+        SourceComp->OnHealthChanged.RemoveDynamic(this, &UHealthBarWidgetWrapper::OnHealthUpdate);
+    }
+
     SourceComp = InComp;
+
+    if (InComp)
+    {
+        InComp->OnHealthChanged.AddDynamic(this, &UHealthBarWidgetWrapper::OnHealthUpdate);
+        OnHealthUpdate(InComp->Health, InComp->MaxHealth);
+    }
 }
 
 float UHealthBarWidgetWrapper::GetHealthFromComponent() const
@@ -27,6 +38,14 @@ float UHealthBarWidgetWrapper::GetHealthFromComponent() const
         return SourceComp->Health;
     }
     return 0.0f;
+}
+
+void UHealthBarWidgetWrapper::OnHealthUpdate(float NewHealth, int MaxHearts)
+{
+    if (SlateHealthBar.IsValid())
+    {
+        SlateHealthBar->SetHealth(NewHealth, MaxHearts);
+    }
 }
 
 int UHealthBarWidgetWrapper::GetMaxHealthFromComponent() const

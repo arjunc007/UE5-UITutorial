@@ -35,8 +35,32 @@ void UInventoryComponent::BeginPlay()
 			HealthBarWidget->AddToViewport();
 		}
 	}
+
+	APawn* OwningPawn = Cast<APawn>(GetOwner());
+
+	if (OwningPawn && OwningPawn->IsLocallyControlled())
+	{
+		UInputComponent* InputComp = OwningPawn->FindComponentByClass<UInputComponent>();
+
+		if (InputComp)
+		{
+			InputComp->BindKey(EKeys::N, IE_Pressed, this, &UInventoryComponent::OnDebugDamage);
+
+			InputComp->BindKey(EKeys::M, IE_Pressed, this, &UInventoryComponent::OnDebugHeal);
+
+			UE_LOG(LogTemp, Log, TEXT("UI Component: Debug Keys N/M Bound Successfully"));
+		}
+	}
 }
 
+void UInventoryComponent::OnDebugHeal()
+{
+	ModifyHealth(0.5f);
+}
+void UInventoryComponent::OnDebugDamage()
+{
+	ModifyHealth(-0.5f);
+}
 
 // Called every frame
 void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
