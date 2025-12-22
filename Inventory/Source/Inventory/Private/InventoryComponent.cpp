@@ -36,6 +36,16 @@ void UInventoryComponent::BeginPlay()
 		}
 	}
 
+	if (InteractClassToSpawn)
+	{
+		InteractWidget = CreateWidget<UUserWidget>(GetWorld(), InteractClassToSpawn);
+		
+		if (InteractWidget)
+		{
+			InteractWidget->AddToViewport();
+		}
+	}
+
 	APawn* OwningPawn = Cast<APawn>(GetOwner());
 
 	if (OwningPawn && OwningPawn->IsLocallyControlled())
