@@ -39,11 +39,6 @@ void UInventoryComponent::BeginPlay()
 	if (InteractClassToSpawn)
 	{
 		InteractWidget = CreateWidget<UUserWidget>(GetWorld(), InteractClassToSpawn);
-		
-		if (InteractWidget)
-		{
-			InteractWidget->AddToViewport();
-		}
 	}
 
 	APawn* OwningPawn = Cast<APawn>(GetOwner());
@@ -77,6 +72,16 @@ void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	if (TraceItemToPickup())
+	{
+		if (InteractWidget)
+		{
+			InteractWidget->AddToViewport();
+		}
+	}
 }
 
+bool UInventoryComponent::TraceItemToPickup() const
+{
+	return true;
+}

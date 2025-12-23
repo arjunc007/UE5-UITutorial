@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "SItemInfoWidget.h"
 #include "SSInteractWidget.h"
 #include "SlateOptMacros.h"
 #include "Widgets/SCanvas.h"
@@ -15,7 +15,6 @@ void SSInteractWidget::Construct(const FArguments& InArgs)
 		+ SOverlay::Slot()
 		.HAlign(HAlign_Right)
 		.VAlign(VAlign_Bottom)
-		.VAlign(VAlign_Fill)
 		.Padding(0.f, 0.f, 100.f, 100.f)
 		[
 			SNew(SBox)
@@ -53,9 +52,16 @@ void SSInteractWidget::Construct(const FArguments& InArgs)
 			]
 		]
 		+ SOverlay::Slot()
+		.HAlign(HAlign_Right)
+		.VAlign(VAlign_Bottom)
+		.Padding(0.f, 0.f, -100.f, 200.f)
 		[
-			SNew(STextBlock)
-			.Text(FText::FromString("Take"))
+			SNew(SItemInfoWidget)
+			.ItemName()
+			.ItemTypeImage()
+			.CurrentItemPower()
+			.NewItemPower()
+			.ItemDescription()
 		]
 	];
 }

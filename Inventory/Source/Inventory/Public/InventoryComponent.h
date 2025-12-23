@@ -64,4 +64,6 @@ public:
 private:
 	void OnDebugHeal();
 	void OnDebugDamage();
+
+	bool TraceItemToPickup() const;
 };
