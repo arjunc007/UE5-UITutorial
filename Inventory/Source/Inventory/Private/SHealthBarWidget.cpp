@@ -53,10 +53,10 @@ void SHealthBarWidget::RefreshHearts()
         WrapBox->AddSlot()
             [
                 SNew(SHeartWidget)
-                    .CurrentBrush_Lambda([this, i]()
-                        {
-                            return GetBrushForHeartIndex(i);
-                        })
+                .CurrentBrush_Lambda([this, i]()
+                    {
+                        return GetBrushForHeartIndex(i);
+                    })
             ];
     }
 }

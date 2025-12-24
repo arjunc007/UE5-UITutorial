@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "SItemInfoWidget.h"
 #include "SSInteractWidget.h"
+#include "SItemInfoWidget.h"
 #include "SlateOptMacros.h"
 #include "Widgets/SCanvas.h"
 
@@ -57,11 +57,11 @@ void SSInteractWidget::Construct(const FArguments& InArgs)
 		.Padding(0.f, 0.f, -100.f, 200.f)
 		[
 			SNew(SItemInfoWidget)
-			.ItemName()
+			/*.ItemName()
 			.ItemTypeImage()
 			.CurrentItemPower()
 			.NewItemPower()
-			.ItemDescription()
+			.ItemDescription()*/
 		]
 	];
 }

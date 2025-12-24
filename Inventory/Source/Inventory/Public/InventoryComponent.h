@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "Delegates/DelegateCombinations.h"
+#include "Engine/DataTable.h"
 #include "InventoryComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHealthChanged, float, NewHealth, int, MaxHearts);
@@ -22,16 +23,7 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnHealthChanged OnHealthChanged;
 
-	void ModifyHealth(float Delta)
-	{
-		Health = FMath::Clamp(Health + Delta, 0.0f, (float)MaxHealth);
-
-		// SHOUT to everyone listening!
-		if (OnHealthChanged.IsBound())
-		{
-			OnHealthChanged.Broadcast(Health, MaxHealth);
-		}
-	}
+	void ModifyHealth(float Delta);
 
 protected:
 	// Called when the game starts
@@ -46,6 +38,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	int MaxHealth = 20;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	UDataTable* DT_Items;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	UDataTable* DT_Money;
 
 	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<UUserWidget> HealthBarClassToSpawn;
@@ -65,5 +63,5 @@ private:
 	void OnDebugHeal();
 	void OnDebugDamage();
 
-	bool TraceItemToPickup() const;
+	bool TraceItemToPickup(FHitResult& htResult) const;
 };
