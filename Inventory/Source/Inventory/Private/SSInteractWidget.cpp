@@ -9,6 +9,29 @@ BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSInteractWidget::Construct(const FArguments& InArgs)
 {
 	BackgroundBrush = InArgs._BackgroundBrush;
+	ItemData = InArgs._ItemData;
+
+	ItemIconBrush.ImageSize = FVector2D(100.f, 100.f);
+	ItemIconBrush.DrawAs = ESlateBrushDrawType::Image;
+	ItemIconBrush.TintColor = FLinearColor::White;
+
+	if (ItemData->Thumbnail)
+	{
+		ItemIconBrush.SetResourceObject(ItemData->Thumbnail);
+	}
+	else
+	{
+		ItemIconBrush.SetResourceObject(nullptr);
+		ItemIconBrush.TintColor = FLinearColor::Transparent;
+	}
+
+	TSharedPtr<SItemInfoWidget> Itemfo = SNew(SItemInfoWidget)
+		.ItemName(ItemData->Name)
+		.ItemTypeImage(&ItemIconBrush)
+		.CurrentItemPower(ItemData->Name)
+		.NewItemPower(FText::AsNumber(ItemData->Power))
+		.ItemDescription(ItemData->Description);
+
 	ChildSlot
 	[
 		SNew(SOverlay)
@@ -56,12 +79,7 @@ void SSInteractWidget::Construct(const FArguments& InArgs)
 		.VAlign(VAlign_Bottom)
 		.Padding(0.f, 0.f, -100.f, 200.f)
 		[
-			SNew(SItemInfoWidget)
-			/*.ItemName()
-			.ItemTypeImage()
-			.CurrentItemPower()
-			.NewItemPower()
-			.ItemDescription()*/
+			Itemfo.ToSharedRef()
 		]
 	];
 }

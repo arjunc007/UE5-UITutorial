@@ -85,9 +85,10 @@ void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 	bool showInteract = false;
 	FHitResult hitResult;
+	AItem* item = nullptr;
 	if (TraceItemToPickup(hitResult))
 	{
-		AItem* item = Cast<AItem>(hitResult.GetActor());
+		item = Cast<AItem>(hitResult.GetActor());
 		if (item)
 		{
 			showInteract = true;
@@ -97,6 +98,7 @@ void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	if (showInteract && InteractWidget)
 	{
 		UInteractWidgetWrapper* interactWidget = Cast<UInteractWidgetWrapper>(InteractWidget);
+		interactWidget->SetData(item->ItemData);
 		InteractWidget->AddToViewport();
 	}
 	else
