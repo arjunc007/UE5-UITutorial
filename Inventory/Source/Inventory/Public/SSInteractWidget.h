@@ -16,6 +16,7 @@ public:
 	SLATE_BEGIN_ARGS(SSInteractWidget)
 	{}
 		SLATE_ATTRIBUTE(const FSlateBrush*, BackgroundBrush)
+		SLATE_ATTRIBUTE(const FSlateBrush* , ItemTypeBrush)
 		SLATE_ARGUMENT(const FSItem*, ItemData)
 	SLATE_END_ARGS()
 
@@ -28,7 +29,6 @@ public:
 
 private:
 	TAttribute<const FSlateBrush*> BackgroundBrush;
+	TAttribute<const FSlateBrush*> ItemTypeBrush;
 	const FSItem* ItemData;
-
-	FSlateBrush ItemIconBrush;
 };

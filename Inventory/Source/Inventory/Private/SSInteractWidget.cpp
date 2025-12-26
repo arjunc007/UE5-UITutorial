@@ -9,25 +9,24 @@ BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSInteractWidget::Construct(const FArguments& InArgs)
 {
 	BackgroundBrush = InArgs._BackgroundBrush;
-	ItemData = InArgs._ItemData;
+	ItemTypeBrush = InArgs._ItemTypeBrush;
 
-	ItemIconBrush.ImageSize = FVector2D(100.f, 100.f);
-	ItemIconBrush.DrawAs = ESlateBrushDrawType::Image;
-	ItemIconBrush.TintColor = FLinearColor::White;
-
-	if (ItemData->Thumbnail)
+	if (InArgs._ItemData)
 	{
-		ItemIconBrush.SetResourceObject(ItemData->Thumbnail);
+		ItemData = InArgs._ItemData;
 	}
 	else
 	{
-		ItemIconBrush.SetResourceObject(nullptr);
-		ItemIconBrush.TintColor = FLinearColor::Transparent;
+		FSItem* item = new FSItem();
+		item->Name = FText::FromString("Item Name");
+		item->Description = FText::FromString("Item Description"); 
+		item->Power = 11.f;
+		ItemData = item;
 	}
 
 	TSharedPtr<SItemInfoWidget> Itemfo = SNew(SItemInfoWidget)
 		.ItemName(ItemData->Name)
-		.ItemTypeImage(&ItemIconBrush)
+		.ItemTypeImage(ItemTypeBrush)
 		.CurrentItemPower(ItemData->Name)
 		.NewItemPower(FText::AsNumber(ItemData->Power))
 		.ItemDescription(ItemData->Description);
@@ -53,6 +52,9 @@ void SSInteractWidget::Construct(const FArguments& InArgs)
 						.Image(BackgroundBrush.Get())
 				]
 				+ SOverlay::Slot()
+					.Padding(12.f, 0.f, 0.f, 0.f)
+					.HAlign(HAlign_Left)
+					.VAlign(VAlign_Center)
 				[
 					SNew(SButton)
 				]

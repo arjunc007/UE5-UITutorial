@@ -7,6 +7,7 @@ TSharedRef<SWidget> UInteractWidgetWrapper::RebuildWidget()
 {
 	SlateInteractWidget = SNew(SSInteractWidget)
 		.BackgroundBrush(&BackgroundBrush)
+		.ItemTypeBrush(ItemTypeBrush)
 		.ItemData(ItemData);
 
 	SlateInteractWidget->SetItemInfo(ItemData);
@@ -23,4 +24,17 @@ void UInteractWidgetWrapper::ReleaseSlateResources(bool bReleaseChildren)
 void UInteractWidgetWrapper::SetData(const FSlot& ItemSlot)
 {
 	ItemData = ItemSlot.ItemHandle.GetRow<FSItem>(TEXT("Context"));
+
+	switch (ItemSlot.ItemType)
+	{
+	case EItemTypes::Sword:
+		ItemTypeBrush = &SwordIcon;
+		break;
+	case EItemTypes::Shield:
+		ItemTypeBrush = &ShieldIcon;
+		break;
+	case EItemTypes::Eatable:
+		ItemTypeBrush = &EatableIcon;
+		break;
+	}
 }

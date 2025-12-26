@@ -22,6 +22,15 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Appearance")
 	FSlateBrush BackgroundBrush;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
+	FSlateBrush SwordIcon;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
+	FSlateBrush ShieldIcon;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Appearance")
+	FSlateBrush EatableIcon;
+
 protected:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 	virtual void ReleaseSlateResources(bool bReleaseChildren) override;
@@ -29,4 +38,5 @@ protected:
 private:
 	TSharedPtr<SSInteractWidget> SlateInteractWidget;
 	FSItem* ItemData;
+	const FSlateBrush* ItemTypeBrush;
 };
