@@ -49,7 +49,7 @@ void SSInteractWidget::Construct(const FArguments& InArgs)
 					.VAlign(VAlign_Fill)
 				[
 					SNew(SImage)
-						.Image(BackgroundBrush.Get())
+					.Image(BackgroundBrush.Get())
 				]
 				+ SOverlay::Slot()
 					.Padding(12.f, 0.f, 0.f, 0.f)
@@ -65,6 +65,7 @@ void SSInteractWidget::Construct(const FArguments& InArgs)
 				[
 					SNew(STextBlock)
 					.Text(FText::FromString("E"))
+					.Font(FCoreStyle::GetDefaultFontStyle("Bold", 40))
 				]
 				+ SOverlay::Slot()
 				.Padding(90.f, 0.f, 0.f, 0.f)
@@ -73,6 +74,8 @@ void SSInteractWidget::Construct(const FArguments& InArgs)
 				[
 					SNew(STextBlock)
 					.Text(FText::FromString("Take"))
+					.Font(FCoreStyle::GetDefaultFontStyle("BoldItalic", 24))
+					.ColorAndOpacity(FLinearColor(1.0f, 1.f, 1.f, 0.467f))
 				]
 			]
 		]
